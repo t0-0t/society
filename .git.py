@@ -19,7 +19,7 @@ class Git:
 
 		try:
 			self.git_client = login(self.config['git_username'], self.config['git_pass'])
-			self.git_repo = self.git_client.repository('ron1n8', 'society')
+			self.git_repo = self.git_client.repository(self.config['git_username'], 'society')
 			self.git_branch = self.git_repo.branch('master')
 			self.git_repo_content = self.getRepoContent()
 			
@@ -51,7 +51,8 @@ class Git:
 			if len(file.split('.')) == 1:
 				print('Directory', file)
 			else:
-				rewriteModule(file, self.git_repo_content[file])
+				print('Rewriting', file)
+				self.rewriteModule({'path': file, 'content': self.git_repo_content[file]})
 
 
 	def rewriteModule(self, file):
