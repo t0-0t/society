@@ -51,12 +51,12 @@ class Git:
 			if len(file.split('.')) == 1:
 				print('Directory', file)
 			else:
-				rewriteFile(file, self.git_repo_content[file])
+				rewriteModule(file, self.git_repo_content[file])
 
 
 	def rewriteModule(self, file):
 		with open(file['path'], 'w') as module_file:
-			module_file.write(file['content'])
+			module_file.write(self.getPlainFileContent(file['content']).decode())
 
 
 	def sendData(self):
@@ -66,4 +66,4 @@ class Git:
 
 if __name__ == '__main__':
 	git_object = Git()
-	print(git_object.updateLocalFiles())
+	git_object.updateLocalFiles()
