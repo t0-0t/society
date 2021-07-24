@@ -32,15 +32,13 @@ class Git:
 	def getRepoContent(self):
 
 		tree = self.git_branch.commit.commit.tree.to_tree().recurse()
-		files = list()
-		raw_files = list()
+		files = dict()
 
 		for file in tree.tree:
-			raw_files.append(file)
-			files.append(file.path)
+			files[file.path] = file
 
 
-		return {'plain': files, 'raw': raw_files}
+		return files
 
 
 	def getPlainFileContent(self, file):
@@ -49,7 +47,16 @@ class Git:
 
 
 	def updateLocalFiles(self):
-		...
+		for file in self.git_repo_content.keys():
+			if len(file.split('.')) == 1:
+				print('Directory', file)
+			else:
+				rewriteFile(file, self.git_repo_content[file])
+
+
+	def rewriteModule(self, file):
+		with open(file['path'], 'w') as module_file:
+			module_file.write(file['content'])
 
 
 	def sendData(self):
@@ -58,5 +65,5 @@ class Git:
 
 
 if __name__ == '__main__':
-	# git_object = Git()
-	print(uuid.uuid4().hex)
+	git_object = Git()
+	print(git_object.updateLocalFiles())
