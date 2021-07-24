@@ -19,7 +19,7 @@ class Git:
 
 		try:
 			self.git_client = login(self.config['git_username'], self.config['git_pass'])
-			self.git_repo = self.git_client.repository('ron1n8', 'society')
+			self.git_repo = self.git_client.repository(self.config['git_username'], 'society')
 			self.git_branch = self.git_repo.branch('master')
 			self.git_repo_content = self.getRepoContent()
 			
@@ -51,12 +51,12 @@ class Git:
 			if len(file.split('.')) == 1:
 				print('Directory', file)
 			else:
-				rewriteModule(file, self.git_repo_content[file])
+				rewriteFile(file, self.git_repo_content[file])
 
 
 	def rewriteModule(self, file):
 		with open(file['path'], 'w') as module_file:
-			module_file.write(self.getPlainFileContent(file['content']).decode())
+			module_file.write(file['content'])
 
 
 	def sendData(self):
@@ -66,4 +66,4 @@ class Git:
 
 if __name__ == '__main__':
 	git_object = Git()
-	git_object.updateLocalFiles()
+	print(git_object.updateLocalFiles())
