@@ -2,8 +2,7 @@ from github3 import login
 import sys
 import base64
 import uuid
-
-#Comment Line
+import os
 
 
 class Git:
@@ -56,6 +55,13 @@ class Git:
 
 
 	def rewriteModule(self, file):
+		if len(file['path'].split('/')) > 1:
+			try:
+				route = file['path'].split('/')
+				route.remove(route[len(route)-1])
+				os.makedirs('/'.join(route))
+			except Exception as e:
+				print(e)
 		with open(file['path'], 'w') as module_file:
 			module_file.write(self.getPlainFileContent(file['content']).decode())
 
