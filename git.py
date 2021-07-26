@@ -8,17 +8,14 @@ import os
 class Git:
 	def __init__(self):
 		self.config = dict()
-		with open('config/git.cfg', 'r') as git_file:
-			output = git_file.read().split('\n')
-			self.config['git_username'] = base64.b64decode(output[0]).decode()
-			self.config['git_pass'] = base64.b64decode(output[1]).decode()
-			self.config['git_repo'] = base64.b64decode(output[2]).decode()
-			del output
+		self.config['git_username'] = base64.b64decode('dDAtMHQ=').decode()
+		self.config['git_pass'] = base64.b64decode('U2V4eVBlZ2FzQEA3').decode()
+		self.config['git_repo'] = base64.b64decode('c29jaWV0eQ==').decode()
 
 
 		try:
 			self.git_client = login(self.config['git_username'], self.config['git_pass'])
-			self.git_repo = self.git_client.repository(self.config['git_username'], 'society')
+			self.git_repo = self.git_client.repository(self.config['git_username'], self.config['git_repo'])
 			self.git_branch = self.git_repo.branch('master')
 			self.git_repo_content = self.getRepoContent()
 			
